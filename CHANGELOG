@@ -1,3 +1,6 @@
+2011-11-03 version 2.0m1
+- added automatic delayed (5s) redirect to confidently identified web snapshot main page
+
 2011-11-02 version 2.0
 first release of phpZoteroWebDAV 2.0. Major Changes since version 1.0
 - library view using Zotero Server API

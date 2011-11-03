@@ -34,7 +34,8 @@ $result = unzip($abs_zipfile,$abs_output,true,$writefiles);
 $cacheURL = "";
 if(substr($result,0,strlen($abs_output)) == $abs_output) {
     if($result == $abs_output) {
-        echo("Display of Websnapshots is not fully implemented yet. Sorry, but this is due to a shortcoming of the zotero server API.<br><br>\n");
+        $html_output="";
+        $html_output .= "Display of Websnapshots is not fully implemented yet. Sorry, but this is due to a shortcoming of the zotero server API.<br><br>\n";
         $scriptpath = realpath(substr($_SERVER['SCRIPT_FILENAME'],0,strrpos($_SERVER['SCRIPT_FILENAME'],"/"))); 
         if ($scriptpath == substr(realpath("./" . $cache_dir),0,strlen($scriptpath))) {
             $cacheURL = "http://" . $_SERVER['HTTP_HOST'] . substr($_SERVER['PHP_SELF'],0,strrpos($_SERVER['PHP_SELF'],"/")) . substr($abs_output,strlen($scriptpath));
@@ -42,20 +43,24 @@ if(substr($result,0,strlen($abs_output)) == $abs_output) {
             $cacheURL = $cache_base_URL;
         }
         if(strlen($cacheURL)>0) {
-            echo("However, the websnap shot has been written to the cache directory and can be accessed there.<br>\n");
+            $html_output .= "However, the websnap shot has been written to the cache directory and can be accessed there.<br>\n";
             $webfilename=findwebfile($abs_output);
             if (strlen($webfilename)>0) {
-                echo ("<a href=\"$cacheURL/$webfilename\" target=\"_blank\">Click here</a> to access the file that looks most like the main file for the websnapshot.<br>\n"); 
-                echo ("If that doens't work, check out <a href=\"$cacheURL\" target=\"_blank\">the entire websnapshot</a> folder and look for the main file yourself.");
+                $html_output .= "<a href=\"$cacheURL/$webfilename\" target=\"_blank\">Click here</a> to access the file that looks most like the main file for the websnapshot (or wait 5 seconds to be redirected there).<br>\n"; 
+                $html_output .= "If that doens't work, check out <a href=\"$cacheURL\" target=\"_blank\">the entire websnapshot</a> folder and look for the main file yourself.";
+                $html_output = "<html>\n<head>\n<script type=\"text/javascript\">\n<!--\nfunction delayer(){\nwindow.location = \"$cacheURL/$webfilename\"\n}\n//-->\n</script>\n</head>\n<body onLoad=\"setTimeout('delayer()', 5000)\">\n" . $html_output . "</body>\n</html>";
             } else {
-                echo ("I didn't find a file that looks most like the main file for the websnapshot, "); 
-                echo ("so you might want to check out <a href=\"$cacheURL\" target=\"_blank\">the entire websnapshot</a> folder and look for the main file yourself.");
+                $html_output .= "I didn't find a file that looks most like the main file for the websnapshot, "; 
+                $html_output .= "so you might want to check out <a href=\"$cacheURL\" target=\"_blank\">the entire websnapshot</a> folder and look for the main file yourself.";
+                $html_output = "<html>\n<head>\n</head>\n<body>\n" . $html_output . "</body>\n</html>";
             }
         } else {
-            echo("However, if you use a cache directory which is located in the same directory as this script ");
-            echo("($scriptpath) or you provide the base URL to whichever cache directory in the settings.php, ");
-            echo("you would be able to use the workaround provided by this script.");
+            $html_output .= "However, if you use a cache directory which is located in the same directory as this script ";
+            $html_output .= "($scriptpath) or you provide the base URL to whichever cache directory in the settings.php, ";
+            $html_output .= "you would be able to use the workaround provided by this script.";
+            $html_output = "<html>\n<head>\n</head>\n<body>\n" . $html_output . "</body>\n</html>";
         }
+        echo ($html_output);
     } else {
         header("Content-type: " . $mimeType);
         header("Content-Disposition: filename=\"" . pathinfo($result, PATHINFO_BASENAME) . "\"");
