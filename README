@@ -1,9 +1,9 @@
 Features (! means new in 2.0)
 =============================
 
-- sync library attachment to any php enabled webhosting space (including freely available ones) through a php based WebDAV implementation
-- ! access your zotero library through zotero.org server API, including sorting, detail view, custom number of items per page etc
-- ! view your synced attachments from any web browser without having to use zotero.org’s own storage server
+- sync library attachment to any php enabled webhosting space (including freely available ones) through a php based WebDAV implementation. This means that you attachment data never has to be stored on computers (clients and servers) that you do not control yourself.
+- ! access your zotero library on your own webspace through the zotero.org server API, including sorting, detail view, custom number of items per page etc
+- ! view your synced attachments on your own webspace from any web browser without having to use zotero.org’s own storage server
 - ! unlike zotero.org’s own attachment viewing feature, phpZoteroWebDAV allows you to view web snapshots as well
 
 INSTALLATION AND CONFIGURATION INSTRUCTIONS
@@ -16,8 +16,8 @@ LICENSE
 =======
 phpZoteroWebDAV is written by Christian Holz and is licensed under the AGPLv3 license (http://www.gnu.org/licenses/agpl.html)
 phpZoteroWebDAV uses the following third party components:
-- the WebDAV server module written by Hartmut Holzgraefe as well as the PEAR base module, both licensed under the PHP license (http://www.php.net/license/3_01.txt)
-- the phpZotero class for zotero API connection, released under an unknown license (https://github.com/clioweb/phpZotero)
+- the WebDAV server PEAR module written by Hartmut Holzgraefe as well as the PEAR base module, both licensed under the PHP license (http://www.php.net/license/3_01.txt)
+- the phpZotero class for zotero API connection, released under an unknown open source license (https://github.com/clioweb/phpZotero)
 - the zotero.org css style sheet, apparently released under the AGPLv3 license (http://www.gnu.org/licenses/agpl.html))
 
 WARRANTY
