@@ -1,0 +1,5 @@
+2011-11-02 version 2.0
+first release of phpZoteroWebDAV 2.0. Major Changes since version 1.0
+- library view using Zotero Server API
+- attachment view from WebDAV data directory via server side cache
+- web snapshot view from WebDAV data directory via server side cache
