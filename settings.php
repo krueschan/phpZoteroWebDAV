@@ -19,4 +19,10 @@ $def_sort = "dateAdded";    // [default="dateAdded"]; The name of the field by w
                             // valid values= "dateAdded", "title", "creator", "type", "date", "publisher", "publication", "journalAbbreviation", "language", "dateModified", "accessDate", "libraryCatalog", "callNumber", "rights", "addedBy", "numItems"
 $def_sortorder = "desc";    // [default="desc"]; The sorting direction of the field specified in the order parameter, valid values: "desc", "asc"
 
+
+// time zone errors - if your script throws errors regarding time zone settings, uncomment (and edit) this line to set the time zone your server is located manually 
+// (this is only used to determine cache age, so it doesn't matter too much if it is set wrongly as long as it is set)
+// a list of supported time zone strings is here: http://www.php.net/manual/en/timezones.php 
+# if (!ini_get('date.timezone')) ini_set('date.timezone', 'America/Toronto');
+
 ?>
