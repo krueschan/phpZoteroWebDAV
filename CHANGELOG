@@ -1,5 +1,6 @@
 2011-11-23 version 2.0m2
 - added setting for timezone for servers that complain about it
+- detail view now observes the linkMode information, e.g. we now differentiate between stored websnapshots and web links
 
 2011-11-03 version 2.0m1
 - added automatic delayed (5s) redirect to confidently identified web snapshot main page
