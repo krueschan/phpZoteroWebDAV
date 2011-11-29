@@ -1,3 +1,6 @@
+2011-11-28 version 2.0m3
+- attachment view was broken for attchments with linkMode=0 (i.e. most) since 2.0m3 - fixed
+
 2011-11-23 version 2.0m2
 - added setting for timezone for servers that complain about it
 - detail view now observes the linkMode information, e.g. we now differentiate between stored websnapshots and web links

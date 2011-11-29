@@ -37,9 +37,9 @@ while ($pos !== false) {
     $content2 .= "  <tr class=\"url\">\n";
     $content2 .= "            <th style=\"text-align: right\">Link</th>\n";
     if ($linkMode==1) {
-        $content2 .= "            <td><a href=\"attachment.php?itemkey=$child_itemkey&mime=$mimeType\">Access the Attachment as stored on the WebDAV server</a></td>\n";
-    } else {
         $content2 .= "            <td><a href=\"$url\">$url</a></td>\n";    
+    } else {
+        $content2 .= "            <td><a href=\"attachment.php?itemkey=$child_itemkey&mime=$mimeType\">Access the Attachment as stored on the WebDAV server</a></td>\n";
     }
     $content2 .= "          </tr>\n        ";
     $content2 .= substr($content, strpos($content, "</table>"));
