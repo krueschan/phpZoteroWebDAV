@@ -20,7 +20,7 @@
 //
 
 require_once 'PEAR.php';
-require_once 'Console/Getopt.php';
+//require_once 'Console/Getopt.php';
 
 $GLOBALS['_System_temp_files'] = array();
 

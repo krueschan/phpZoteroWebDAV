@@ -1,3 +1,6 @@
+2012-02-17 version 2.0m4
+- removed reference to unused (and thus missing) PEAR module
+
 2011-11-28 version 2.0m3
 - attachment view was broken for attchments with linkMode=0 (i.e. most) since 2.0m3 - fixed
 
