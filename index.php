@@ -39,7 +39,7 @@ $start = ($page - 1) * $ipp;
 if ($ipp > $fetchlimit) $limit = $fetchlimit; else $limit = $ipp;
 $items = $zotero->getItemsTop($user_ID, array(format=>'atom', content=>'none', start=>$start, limit=>$limit, order=>$sort, sort=>$sortorder));
 $totalitems = intval(substr($items,strpos($items, "<zapi:totalResults>") + 19, strpos($items, "</zapi:totalResults>") - strpos($items, "<zapi:totalResults>") - 19));
-echo("orders[0]='".$orders[0]."'  orders[1]='".$orders[1]."'  bool=".(!(boolean) abs(strcmp($sort,"creator"))));
+
 // MAIN DATA TABLE
 // parse result sets, write out data and get more from API if needed
 echo("<table class=\"library-items-div\">\n");
