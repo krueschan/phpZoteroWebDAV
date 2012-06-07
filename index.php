@@ -21,6 +21,13 @@ echo("&nbsp; &nbsp; &nbsp; &nbsp;");
 echo("WebDAV URL: <a href='" . $webdav_url . "'>" . $webdav_url . "</a>");
 echo("</h3>");
 
+$orders[0] = $sortorder;
+if (strcmp($orders[0],"asc")){
+    $orders[1]='asc';
+}else{
+    $orders[1]='desc';
+}
+
 //purge old files from the cache
 purge_cache(realpath("./" . $cache_dir), $cache_age);
 
@@ -32,11 +39,15 @@ $start = ($page - 1) * $ipp;
 if ($ipp > $fetchlimit) $limit = $fetchlimit; else $limit = $ipp;
 $items = $zotero->getItemsTop($user_ID, array(format=>'atom', content=>'none', start=>$start, limit=>$limit, order=>$sort, sort=>$sortorder));
 $totalitems = intval(substr($items,strpos($items, "<zapi:totalResults>") + 19, strpos($items, "</zapi:totalResults>") - strpos($items, "<zapi:totalResults>") - 19));
-
+echo("orders[0]='".$orders[0]."'  orders[1]='".$orders[1]."'  bool=".(!(boolean) abs(strcmp($sort,"creator"))));
 // MAIN DATA TABLE
 // parse result sets, write out data and get more from API if needed
 echo("<table class=\"library-items-div\">\n");
-echo("<tr><td><b>Attachments</b></td><td><b>Creator</b></td><td><b>Year</b></td><td><b>Title</b></td></tr></b>");
+echo("<tr><td><b>Attachments</a></b></td>");
+echo("<td><b><a href='?page=1&sort=creator&sortorder=".$orders[!(boolean) abs(strcmp($sort,"creator"))]."'>Creator</a></b></td>");
+echo("<td><b><a href='?page=1&sort=date&sortorder=".$orders[!(boolean) abs(strcmp($sort,"year"))]."'>Year</b></td>");
+echo("<td><b><a href='?page=1&sort=title&sortorder=".$orders[!(boolean) abs(strcmp($sort,"title"))]."'>Title</b></td>");
+echo("</tr></b>");
 while (($i < ($ipp - 1)) && (strpos($items, "<entry>")>0)) {
     $offset=0;
     $pos = strpos($items, "<entry>", $offset);
