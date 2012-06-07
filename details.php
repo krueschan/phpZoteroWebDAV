@@ -33,10 +33,11 @@ while ($pos !== false) {
     $mimeType = substr($mimeType, 0, strpos($mimeType,"</td>"));  // this is broken up into two commands to keep it simple
     $linkMode = substr($content, strpos($content, "<td>", strpos($content, "<tr class=\"linkMode\">")) + 4);
     $linkMode = intval(substr($linkMode, 0, strpos($linkMode,"</td>")));  // this is broken up into two commands to keep it simple
+    $isntpdf = strcasecmp($mimeType,'application/pdf');
     $content2 = substr($content, 0, strpos($content, "</table>"));
     $content2 .= "  <tr class=\"url\">\n";
     $content2 .= "            <th style=\"text-align: right\">Link</th>\n";
-    if ($linkMode==1) {
+    if ($linkMode==1 && $isntpdf ) {
         $content2 .= "            <td><a href=\"$url\">$url</a></td>\n";    
     } else {
         $content2 .= "            <td><a href=\"attachment.php?itemkey=$child_itemkey&mime=$mimeType\">Access the Attachment as stored on the WebDAV server</a></td>\n";
