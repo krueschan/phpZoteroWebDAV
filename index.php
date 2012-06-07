@@ -13,6 +13,14 @@ if (!($sortorder)) $sortorder = $def_sortorder;
 $page=$_REQUEST['page']; 
 if (!($page)) $page = 1;
 
+$webdav_url="http://" . $_SERVER['HTTP_HOST']  . $_SERVER['REQUEST_URI'] . "webdav_server.php/zotero/";
+
+echo("<h3>");
+echo("Total size of stored attachments: <u>" . format_size(foldersize(getcwd() . '/' . $data_dir)) . "</u>");
+echo("&nbsp; &nbsp; &nbsp; &nbsp;");
+echo("WebDAV URL: <a href='" . $webdav_url . "'>" . $webdav_url . "</a>");
+echo("</h3>");
+
 //purge old files from the cache
 purge_cache(realpath("./" . $cache_dir), $cache_age);
 
