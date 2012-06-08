@@ -45,7 +45,7 @@ $totalitems = intval(substr($items,strpos($items, "<zapi:totalResults>") + 19, s
 echo("<table class=\"library-items-div\">\n");
 echo("<tr><td><b>Attachments</a></b></td>");
 echo("<td><b><a href='?page=1&sort=creator&sortorder=".$orders[!(boolean) abs(strcmp($sort,"creator"))]."'>Creator</a></b></td>");
-echo("<td><b><a href='?page=1&sort=date&sortorder=".$orders[!(boolean) abs(strcmp($sort,"year"))]."'>Year</b></td>");
+echo("<td><b><a href='?page=1&sort=date&sortorder=".$orders[!(boolean) abs(strcmp($sort,"date"))]."'>Year</b></td>");
 echo("<td><b><a href='?page=1&sort=title&sortorder=".$orders[!(boolean) abs(strcmp($sort,"title"))]."'>Title</b></td>");
 echo("</tr></b>");
 while (($i < ($ipp - 1)) && (strpos($items, "<entry>")>0)) {
