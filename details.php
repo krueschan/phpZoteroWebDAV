@@ -14,9 +14,9 @@ $item = $zotero->getItem($user_ID, $itemkey, array(format=>'atom'));
 $content = substr($item,strpos($item, "<content type="), strpos($item, "</content>") - strpos($item, "<content type=", $offset) + 10);
 
 // displaying content of main item
-echo("<hr><h2>Item Details</h2><hr>\n");
-echo($content . "\n<hr>\n");
-echo("<h2>Attachments</h2><hr>\n");
+echo("<hr /><h2>Item Details</h2><hr />\n");
+echo($content . "\n<hr />\n");
+echo("<h2>Attachments</h2><hr />\n");
 
 // getting child items from API, parsing data, displaying results
 $child_items = $zotero->getItemChildren($user_ID, $itemkey, array(format=>'atom', limit=>99));
@@ -45,7 +45,7 @@ while ($pos !== false) {
     $content2 .= "          </tr>\n        ";
     $content2 .= substr($content, strpos($content, "</table>"));
     echo($content2 . "\n");
-    echo("<hr>\n");
+    echo("<hr />\n");
     $offset = strpos($child_items, "</entry>", $offset) + 8;
     $pos = strpos($child_items, "<entry>", $offset);
 }

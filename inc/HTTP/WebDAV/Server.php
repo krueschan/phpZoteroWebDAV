@@ -1085,6 +1085,7 @@ class HTTP_WebDAV_Server
                 // for now we do not support any sort of multipart requests
                 if (!strncmp($_SERVER["CONTENT_TYPE"], "multipart/", 10)) {
                     $this->http_status("501 not implemented");
+		    error_log('The service does not support multipart PUT requests');
                     echo "The service does not support mulipart PUT requests";
                     return;
                 }
@@ -1104,7 +1105,8 @@ class HTTP_WebDAV_Server
                 switch ($key) {
                 case 'HTTP_CONTENT_ENCODING': // RFC 2616 14.11
                     // TODO support this if ext/zlib filters are available
-                    $this->http_status("501 not implemented"); 
+                    $this->http_status("501 not implemented");
+		    error_log('The service does not support ' . $val . ' content encoding');
                     echo "The service does not support '$val' content encoding";
                     return;
 
@@ -1143,13 +1145,19 @@ class HTTP_WebDAV_Server
 
                 case 'HTTP_CONTENT_MD5':      // RFC 2616 14.15
                     // TODO: maybe we can just pretend here?
-                    $this->http_status("501 not implemented"); 
+                    $this->http_status("501 not implemented");
+		    error_log('The service does not support MD5 checksum verification');
                     echo "The service does not support content MD5 checksum verification"; 
                     return;
 
+		case 'HTTP_CONTENT_LENGTH':
+		case 'HTTP_CONTENT_TYPE':
+		    // nginx FastCGI workaround
+		    break;
                 default: 
                     // any other unknown Content-* headers
-                    $this->http_status("501 not implemented"); 
+                    $this->http_status("501 not implemented");
+		    error_log('The service does not support: ' . $key );
                     echo "The service does not support '$key'"; 
                     return;
                 }

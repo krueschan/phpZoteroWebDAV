@@ -4,16 +4,12 @@ require_once 'inc/include.php';
 require_once 'inc/phpZotero.php';
 include_once 'inc/header.php';  // HTML header including css file
 $zotero = new phpZotero($API_key);
-$ipp=$_REQUEST['ipp']; 
-if (!($ipp)) $ipp = $def_ipp;
-$sort=$_REQUEST['sort']; 
-if (!($sort)) $sort = $def_sort;
-$sortorder=$_REQUEST['sortorder']; 
-if (!($sortorder)) $sortorder = $def_sortorder;
-$page=$_REQUEST['page']; 
-if (!($page)) $page = 1;
+$ipp  = isset($_REQUEST['ipp']) ? (int)$_REQUEST['ipp'] : $def_ipp;
+$sort = isset($_REQUEST['sort']) ? $_REQUEST['sort'] : $def_sort; 
+$sortorder = isset($_REQUEST['sortorder']) ? $_REQUEST['sortorder'] : $def_sortorder;
+$page = isset($_REQUEST['page']) ? (int)$_REQUEST['page'] : 1;
 
-$webdav_url="http://" . $_SERVER['HTTP_HOST']  . str_replace('?'.$_SERVER['QUERY_STRING'],'',$_SERVER['REQUEST_URI']) . "webdav_server.php/zotero/";
+$webdav_url=( isset($_SERVER['HTTPS']) ? 'https' : 'http') . "://" . $_SERVER['HTTP_HOST']  . str_replace('?'.$_SERVER['QUERY_STRING'],'',$_SERVER['REQUEST_URI']) . "webdav_server.php/zotero/";
 
 echo("<h3>");
 echo("Total size of stored attachments: <u>" . format_size(foldersize(getcwd() . '/' . $data_dir)) . "</u>");
@@ -32,12 +28,12 @@ if (strcmp($orders[0],"asc")){
 purge_cache(realpath("./" . $cache_dir), $cache_age);
 
 $i = 0;
-$item = array( 0 => array(title=>"", itemKey=>"", creatorSummary=>"", year=>"", numChildren=>""));
+$item = array( 0 => array('title'=>"", 'itemKey'=>"", 'creatorSummary'=>"", 'year'=>"", 'numChildren'=>""));
 
 // get first set of items from API
 $start = ($page - 1) * $ipp;
 if ($ipp > $fetchlimit) $limit = $fetchlimit; else $limit = $ipp;
-$items = $zotero->getItemsTop($user_ID, array(format=>'atom', content=>'none', start=>$start, limit=>$limit, order=>$sort, sort=>$sortorder));
+$items = $zotero->getItemsTop($user_ID, array('format'=>'atom', 'content'=>'none', 'start'=>$start, 'limit'=>$limit, 'order'=>$sort, 'sort'=>$sortorder));
 $totalitems = intval(substr($items,strpos($items, "<zapi:totalResults>") + 19, strpos($items, "</zapi:totalResults>") - strpos($items, "<zapi:totalResults>") - 19));
 
 // MAIN DATA TABLE
@@ -63,7 +59,7 @@ while (($i < ($ipp - 1)) && (strpos($items, "<entry>")>0)) {
         if (strpos($entry, "<zapi:creatorSummary>")>0) $item_creatorSummary = substr($entry,strpos($entry, "<zapi:creatorSummary>") + 21, strpos($entry, "</zapi:creatorSummary>") - strpos($entry, "<zapi:creatorSummary>") - 21);
         if (strpos($entry, "<zapi:year>")>0) $item_year = substr($entry,strpos($entry, "<zapi:year>") + 11, strpos($entry, "</zapi:year>") - strpos($entry, "<zapi:year>") - 11);
         if (strpos($entry, "<zapi:numChildren>")>0) $item_numChildren = substr($entry,strpos($entry, "<zapi:numChildren>") + 18, strpos($entry, "</zapi:numChildren>") - strpos($entry, "<zapi:numChildren>") - 18);
-        $item[$i] = array(title=>$item_title, itemKey=>$item_itemKey, creatorSummary=>$item_creatorSummary, year=>$item_year, numChildren=>$item_numChildren);
+        $item[$i] = array('title'=>$item_title, 'itemKey'=>$item_itemKey, 'creatorSummary'=>$item_creatorSummary, 'year'=>$item_year, 'numChildren'=>$item_numChildren);
         echo("<tr>");
         echo("<td><a href=\"details.php?itemkey="  . $item[$i]['itemKey'] . "\">" . $item[$i]['numChildren'] . "</a></td>");
         echo("<td><a href=\"details.php?itemkey="  . $item[$i]['itemKey'] . "\">" . $item[$i]['creatorSummary'] . "</a></td>");
@@ -74,7 +70,7 @@ while (($i < ($ipp - 1)) && (strpos($items, "<entry>")>0)) {
         $offset = strpos($items, "</entry>", $offset) + 8;
         $pos = strpos($items, "<entry>", $offset);
     }
-    $items = $zotero->getItemsTop($user_ID, array(format=>'atom', content=>'none', start=>($start+$i), limit=>$limit, order=>$sort, sort=>$sortorder));    
+    $items = $zotero->getItemsTop($user_ID, array('format'=>'atom', 'content'=>'none', 'start'=>($start+$i), 'limit'=>$limit, 'order'=>$sort, 'sort'=>$sortorder));    
 }
 echo("</table><br>\n\n");
 echo(($start +1) . " to " . ($start + $i) . " of " . $totalitems);
