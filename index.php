@@ -76,7 +76,7 @@ echo("</table><br>\n\n");
 echo(($start +1) . " to " . ($start + $i) . " of " . $totalitems);
 
 // NAVIGATION FOOTER
-echo("<hr>\n<table>\n");
+echo("<hr />\n<table>\n");
 $parm_ipp = ($ipp == $def_ipp) ? "": "&ipp=$ipp";
 $parm_sort = ($sort == $def_sort) ? "": "&sort=$sort";
 $parm_sortorder = ($sortorder == $def_sortorder) ? "": "&sortorder=$sortorder";
