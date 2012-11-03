@@ -38,12 +38,15 @@ $totalitems = intval(substr($items,strpos($items, "<zapi:totalResults>") + 19, s
 
 // MAIN DATA TABLE
 // parse result sets, write out data and get more from API if needed
-echo("<table class=\"library-items-div\">\n");
-echo("<tr><td><b>Attachments</a></b></td>");
-echo("<td><b><a href='?page=1&sort=creator&sortorder=".$orders[!(boolean) abs(strcmp($sort,"creator"))]."'>Creator</a></b></td>");
-echo("<td><b><a href='?page=1&sort=date&sortorder=".$orders[!(boolean) abs(strcmp($sort,"date"))]."'>Year</b></td>");
-echo("<td><b><a href='?page=1&sort=title&sortorder=".$orders[!(boolean) abs(strcmp($sort,"title"))]."'>Title</b></td>");
-echo("</tr></b>");
+?>
+<table class="library-items-div">
+        <tr>
+                <td><b>Attachments</a></b></td>
+                <td><b><a href="?page=1&sort=creator&sortorder=<?php echo $orders[!(boolean) abs(strcmp($sort,"creator"))] ?>">Creator</a></b></td>
+                <td><b><a href="?page=1&sort=date&sortorder=<?php echo $orders[!(boolean) abs(strcmp($sort,"date"))] ?>">Year</a></b></td>
+                <td><b><a href="?page=1&sort=title&sortorder=<?php echo $orders[!(boolean) abs(strcmp($sort,"title"))] ?>">Title</a></b></td>
+        </tr>
+<?php
 while (($i < ($ipp - 1)) && (strpos($items, "<entry>")>0)) {
     $offset=0;
     $pos = strpos($items, "<entry>", $offset);
