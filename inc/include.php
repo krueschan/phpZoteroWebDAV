@@ -148,4 +148,37 @@ function format_size($size) {
 
     return substr( $size, 0, $endIndex).' '.$units[$i];
 }
+
+/**
+ * Format date from an item record into a 'x days/hours/minutes ago' format
+ */
+function format_date( $dateString ) {
+    if( class_exists( 'DateTime' ) ) {
+        $date = new DateTime();
+        $date->setTimestamp( strtotime( $dateString ) );
+        $interval = $date->diff( new DateTime( 'now' ) );
+
+
+        $format_array = array();
+
+        if( $interval->y !== 0 )
+            $format_array[] = '%y years';
+        if( $interval->m !== 0 )
+            $format_array[] = '%m months';
+        if( $interval->d !== 0 )
+            $format_array[] = '%d days';
+        if( $interval->h !== 0 )
+            $format_array[] = '%h hours';
+
+        return $interval->format( join(' ', $format_array ) . ' ago');
+    }
+    return $dateString;
+}
+
+/**
+ * Make a camelCase string into legible words
+ */
+function un_camel( $string ) {
+    return ucfirst( implode(' ', preg_split('/([[:upper:]][[:lower:]]+)/', $string, null, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY) ) );
+}
 ?>
