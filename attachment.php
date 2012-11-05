@@ -21,7 +21,7 @@ while ($dir_item = readdir($dir)) {
         if (substr($dir_item, 0, strpos($dir_item, "_")) == $itemkey) {
             $abs_output = realpath("./" . $cache_dir) . "/" . $dir_item;
             $writefiles = false;      
-            echo("found one");
+//          echo("found one\n");
         }
     } 
 } 
@@ -38,7 +38,7 @@ if(substr($result,0,strlen($abs_output)) == $abs_output) {
         $html_output .= "Display of Websnapshots is not fully implemented yet. Sorry, but this is due to a shortcoming of the zotero server API.<br><br>\n";
         $scriptpath = realpath(substr($_SERVER['SCRIPT_FILENAME'],0,strrpos($_SERVER['SCRIPT_FILENAME'],"/"))); 
         if ($scriptpath == substr(realpath("./" . $cache_dir),0,strlen($scriptpath))) {
-            $cacheURL = "http://" . $_SERVER['HTTP_HOST'] . substr($_SERVER['PHP_SELF'],0,strrpos($_SERVER['PHP_SELF'],"/")) . substr($abs_output,strlen($scriptpath));
+            $cacheURL = ( isset( $_SERVER['HTTPS'] ) ? 'https' : 'http' ) . '://' . $_SERVER['HTTP_HOST'] . substr($_SERVER['PHP_SELF'],0,strrpos($_SERVER['PHP_SELF'],"/")) . substr($abs_output,strlen($scriptpath));
         } else {
             $cacheURL = $cache_base_URL;
         }
@@ -60,7 +60,27 @@ if(substr($result,0,strlen($abs_output)) == $abs_output) {
             $html_output .= "you would be able to use the workaround provided by this script.";
             $html_output = "<html>\n<head>\n</head>\n<body>\n" . $html_output . "</body>\n</html>";
         }
-        echo ($html_output);
+
+        if( empty( $cache_base_URL ) ) {
+
+            $output = file_get_contents($abs_output . '/' . $webfilename);
+
+            // Add a <base> as a hack to include CSS files
+            if( preg_match('/\<head(.*?)(\>)/i', $output, $matches, PREG_OFFSET_CAPTURE ) ) {
+
+                $head_start = $matches[0][1];
+                $head_end   = $matches[2][1];
+                $output = substr( $output, 0, $head_end + 1 ) . '<base href="' .$cacheURL  . '/" />' . substr( $output, $head_end + 1 );
+                echo $output;
+
+            }
+
+        } else {
+
+            echo $html_output;
+
+        }
+
     } else {
         header("Content-type: " . $mimeType);
         header("Content-Disposition: filename=\"" . pathinfo($result, PATHINFO_BASENAME) . "\"");
