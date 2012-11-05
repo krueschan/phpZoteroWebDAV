@@ -1,8 +1,6 @@
 <?php
 require_once 'settings.php';
 require_once 'inc/include.php';
-require_once 'inc/phpZotero.php';
-$zotero   = new phpZotero($API_key);
 $itemkey  = $_REQUEST['itemkey'];
 $mimeType = $_REQUEST['mime'];
 
