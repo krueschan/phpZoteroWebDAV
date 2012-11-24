@@ -78,7 +78,7 @@ if( $child_items ) {
     </tr>
     <?php endforeach; ?>
     <tr class="url">
-        <th>Link</th>
+        <th scope="row">Link</th>
         <?php if ( in_array( $child_item->apiObject['linkMode'], array( 'linked_file', 'linked_url' ) ) ) { ?>
             <td><a href="<?php echo $child_item->apiObject['url'] ?>"><?php echo $child_item->apiObject['url'] ?></a></td>
         <?php } else { ?>
