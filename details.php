@@ -20,10 +20,12 @@ echo("<h2>Attachments</h2><hr>\n");
 
 // getting child items from API, parsing data, displaying results
 $child_items = $zotero->getItemChildren($user_ID, $itemkey, array(format=>'atom', limit=>99));
+#echo("<xmp>".$child_items."</xmp><hr>\n");
 $offset=0;
-$pos = strpos($child_items, "<entry>", $offset);
+$pos = strpos($child_items, "<entry", $offset);
 while ($pos !== false) {
-    $entry = substr($child_items,strpos($child_items, "<entry>", $offset), strpos($child_items, "</entry>", $offset) - strpos($child_items, "<entry>", $offset) + 8);
+    $entry = substr($child_items,strpos($child_items, "<entry", $offset), strpos($child_items, "</entry>", $offset) - strpos($child_items, "<entry", $offset) + 8);
+    
     $title = substr($entry,strpos($entry, "<title>") + 7, strpos($entry, "</title>") - strpos($entry, "<title>") - 7);
     $child_itemkey = substr($entry,strpos($entry, "<zapi:key>") + 10, strpos($entry, "</zapi:key>") - strpos($entry, "<zapi:key>") - 10);
     $content  = substr($entry,strpos($entry, "<content type="), strpos($entry, "</content>") - strpos($entry, "<content type=") + 10);
@@ -46,7 +48,7 @@ while ($pos !== false) {
     echo($content2 . "\n");
     echo("<hr>\n");
     $offset = strpos($child_items, "</entry>", $offset) + 8;
-    $pos = strpos($child_items, "<entry>", $offset);
+    $pos = strpos($child_items, "<entry", $offset);
 }
 
 ?>
