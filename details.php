@@ -10,7 +10,7 @@ if( isset( $apc_cache_ttl ) && $apc_cache_ttl )
     $zotero->setCacheTtl( $apc_cache_ttl );
 
 //purge old files from the cache
-purge_cache(realpath("./" . $cache_dir), $cache_age);
+purge_cache( get_real_path( $cache_dir ), $cache_age);
 
 // reading item details from API
 $item = $zotero->fetchItem( $itemkey );
