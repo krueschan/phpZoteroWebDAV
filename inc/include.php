@@ -196,6 +196,9 @@ function get_real_path( $path ) {
 	
 	// Make relative paths absolute
 	$root = dirname( dirname(__FILE__) );
+	if( ! realpath( $root . '/' . $path ) ) {
+		return $root . '/' . $path;
+	}
 	return realpath( $root . '/' . $path );
 }
 
