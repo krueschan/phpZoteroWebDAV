@@ -187,10 +187,14 @@ function un_camel( $string ) {
  */
 function get_real_path( $path ) {
 	
+	// Try to resolve absolute paths, but just return them on error
 	if( '/' == $path[0] ) {
+		if( ! $real_path = realpath( $path ) )
+			return $path;
 		return realpath( $path );
 	}
 	
+	// Make relative paths absolute
 	$root = dirname( dirname(__FILE__) );
 	return realpath( $root . '/' . $path );
 }
