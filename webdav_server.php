@@ -1,5 +1,7 @@
 <?php
 
+require 'settings.php';
+
 chdir (dirname(__FILE__) . "/inc");
 
 require 'include.php';
