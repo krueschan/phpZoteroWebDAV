@@ -1,14 +1,14 @@
 <?php
 // Zotero API settings. Obtain from zotero.org after logging in by going to https://www.zotero.org/settings/keys
 // the script only needs read access to your personal library, so you can disable everything else.
-$API_key = 'SuWPzsYkh3yxT85XpWUdMOIf';      // obtain from https://www.zotero.org/settings/keys [no default]
-$user_ID = '1180895';      // obtain from https://www.zotero.org/settings/keys [no default]
+$API_key = '';      // obtain from https://www.zotero.org/settings/keys [no default]
+$user_ID = '';      // obtain from https://www.zotero.org/settings/keys [no default]
 
 /**
  * User / Library slug from the Zotero site
  * @global string $user_name
  */
-$user_name = 'ddean';
+$user_name = '';
 
 $fetchlimit = 20;   // [default=20]; how many items to fetch with each API call (maximum allowed by zotero is 99). use your value for items per page below ($def_ipp) unless there are issues, e.g. server timeouts
 
