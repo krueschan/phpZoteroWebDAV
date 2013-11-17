@@ -3,7 +3,12 @@ require_once 'settings.php';
 require_once 'inc/include.php';
 require_once 'inc/libZotero.php';
 include_once 'inc/header.php';  // HTML header including css file
-$zotero = new Zotero_Library( 'user', $user_ID, $user_name, $API_key );
+
+try {
+	$zotero = new Zotero_Library( 'user', $user_ID, $user_name, $API_key );
+} catch( Exception $e ) {
+	die( 'Error activating libZotero: ' . $e->getMessage() );
+}
 
 if( isset( $apc_cache_ttl ) && $apc_cache_ttl )
 	$zotero->setCacheTtl( $apc_cache_ttl );
