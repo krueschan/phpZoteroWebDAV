@@ -181,4 +181,25 @@ function format_date( $dateString ) {
 function un_camel( $string ) {
     return ucfirst( implode(' ', preg_split('/([[:upper:]][[:lower:]]+)/', $string, null, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY) ) );
 }
+
+/**
+ * Resolve absolute and relative paths
+ */
+function get_real_path( $path ) {
+	
+	// Try to resolve absolute paths, but just return them on error
+	if( '/' == $path[0] ) {
+		if( ! $real_path = realpath( $path ) )
+			return $path;
+		return realpath( $path );
+	}
+	
+	// Make relative paths absolute
+	$root = dirname( dirname(__FILE__) );
+	if( ! realpath( $root . '/' . $path ) ) {
+		return $root . '/' . $path;
+	}
+	return realpath( $root . '/' . $path );
+}
+
 ?>

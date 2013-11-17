@@ -3,7 +3,12 @@ require_once 'settings.php';
 require_once 'inc/include.php';
 require_once 'inc/libZotero.php';
 include_once 'inc/header.php';  // HTML header including css file
-$zotero = new Zotero_Library( 'user', $user_ID, $user_name, $API_key );
+
+try {
+	$zotero = new Zotero_Library( 'user', $user_ID, $user_name, $API_key );
+} catch( Exception $e ) {
+	die( 'Error activating libZotero: ' . $e->getMessage() );
+}
 
 if( isset( $apc_cache_ttl ) && $apc_cache_ttl )
 	$zotero->setCacheTtl( $apc_cache_ttl );
@@ -18,7 +23,7 @@ $webdav_url=( isset($_SERVER['HTTPS']) ? 'https' : 'http') . "://" . $_SERVER['H
 
 ?>
 <h3>
-    Total size of stored attachments: <u><?php echo format_size(foldersize(getcwd() . '/' . $data_dir)) ?></u>
+    Total size of stored attachments: <u><?php echo format_size( foldersize( get_real_path( $data_dir ) ) ) ?></u>
     &nbsp; &nbsp; &nbsp; &nbsp;
     WebDAV URL: <a href="<?php echo $webdav_url ?>"><?php echo $webdav_url ?></a>
 </h3>
@@ -32,7 +37,7 @@ if (strcmp($orders[0],"asc")){
 }
 
 //purge old files from the cache
-purge_cache(realpath("./" . $cache_dir), $cache_age);
+purge_cache( get_real_path( $cache_dir ), $cache_age );
 
 // get first set of items from API
 $start = ($page - 1) * $ipp;
