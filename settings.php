@@ -3,6 +3,13 @@
 // the script only needs read access to your personal library, so you can disable everything else.
 $API_key = '';      // obtain from https://www.zotero.org/settings/keys [no default]
 $user_ID = '';      // obtain from https://www.zotero.org/settings/keys [no default]
+
+/**
+ * User / Library slug from the Zotero site
+ * @global string $user_name
+ */
+$user_name = '';
+
 $fetchlimit = 20;   // [default=20]; how many items to fetch with each API call (maximum allowed by zotero is 99). use your value for items per page below ($def_ipp) unless there are issues, e.g. server timeouts
 
 
@@ -12,6 +19,12 @@ $cache_dir = 'cache';           // [default="cache"]; cache directory, relative 
 $cache_age = 0;                 // [default=0]; in minutes. files will not be re-read from the sync storage to the file cache if they have already been grabbed within this time period. Also, cache folders that are older than this will be purged from the cache. set to 0 if you want to empty cache after each use (NB: if the attachment in question is a web snapshot and can be accessed by web the attachment will not be purged until the next use of the script)
 $cache_base_URL = "";           // [default=""]; if the cache directory is NOT a subdirectory of the directory which contains the script AND it (the cache) is web accessible, provide its URL here for use to display web snapshots. if the cache directory is not a subdirectory of the script's own directory and nothing it provided here, display of web snapshots will not work (all other attachment types are unaffected) 
 
+/**
+ * Control APC cache usage 
+ * [default=0] value in seconds; set non-zero to enable libZotero's built-in APC cache
+ * @global int $apc_cache_ttl
+ */
+$apc_cache_ttl = 0;
 
 // library view defaults
 $def_ipp = 20;              // [default=20]; items per page

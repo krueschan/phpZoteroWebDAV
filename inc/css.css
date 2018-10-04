@@ -79,6 +79,10 @@ th {
     
 }
 
+th[scope="row"] {
+    text-align: right;
+}
+
 thead th {
     border-bottom: 2px solid #ccc;
 }

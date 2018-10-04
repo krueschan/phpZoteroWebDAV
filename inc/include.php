@@ -113,4 +113,93 @@ function findwebfile($path) {
     return $filename;
 }
 
+function foldersize($path) {
+    $total_size = 0;
+    $files = scandir($path);
+    $cleanPath = rtrim($path, '/'). '/';
+
+    foreach($files as $t) {
+        if ($t<>"." && $t<>"..") {
+            $currentFile = $cleanPath . $t;
+            if (is_dir($currentFile)) {
+                $size = foldersize($currentFile);
+                $total_size += $size;
+            }
+            else {
+                $size = filesize($currentFile);
+                $total_size += $size;
+            }
+        }   
+    }
+
+    return $total_size;
+}
+
+function format_size($size) {
+    $units = explode(' ', 'B KB MB GB TB PB');
+
+    $mod = 1024;
+
+    for ($i = 0; $size > $mod; $i++) {
+        $size /= $mod;
+    }
+
+    $endIndex = strpos($size, ".")+3;
+
+    return substr( $size, 0, $endIndex).' '.$units[$i];
+}
+
+/**
+ * Format date from an item record into a 'x days/hours/minutes ago' format
+ */
+function format_date( $dateString ) {
+    if( class_exists( 'DateTime' ) ) {
+        $date = new DateTime();
+        $date->setTimestamp( strtotime( $dateString ) );
+        $interval = $date->diff( new DateTime( 'now' ) );
+
+
+        $format_array = array();
+
+        if( $interval->y !== 0 )
+            $format_array[] = '%y years';
+        if( $interval->m !== 0 )
+            $format_array[] = '%m months';
+        if( $interval->d !== 0 )
+            $format_array[] = '%d days';
+        if( $interval->h !== 0 )
+            $format_array[] = '%h hours';
+
+        return $interval->format( join(' ', $format_array ) . ' ago');
+    }
+    return $dateString;
+}
+
+/**
+ * Make a camelCase string into legible words
+ */
+function un_camel( $string ) {
+    return ucfirst( implode(' ', preg_split('/([[:upper:]][[:lower:]]+)/', $string, null, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY) ) );
+}
+
+/**
+ * Resolve absolute and relative paths
+ */
+function get_real_path( $path ) {
+	
+	// Try to resolve absolute paths, but just return them on error
+	if( '/' == $path[0] ) {
+		if( ! $real_path = realpath( $path ) )
+			return $path;
+		return realpath( $path );
+	}
+	
+	// Make relative paths absolute
+	$root = dirname( dirname(__FILE__) );
+	if( ! realpath( $root . '/' . $path ) ) {
+		return $root . '/' . $path;
+	}
+	return realpath( $root . '/' . $path );
+}
+
 ?>
